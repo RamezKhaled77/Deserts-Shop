@@ -1,29 +1,29 @@
 import { useState, useEffect } from "react";
 import Data from "./data.json";
 
-const cartList = [
-  {
-    id: 4,
-    name: "Classic Tiramisu",
-    price: 5.5,
-    image: "/assets/images/image-tiramisu-thumbnail.jpg",
-    quantity: 1,
-  },
-  {
-    id: 2,
-    name: "Vanilla Bean Crème Brûlée",
-    price: 7.0,
-    image: "./assets/images/image-creme-brulee-thumbnail.jpg",
-    quantity: 4,
-  },
-  {
-    id: 7,
-    name: "Red Velvet Cake",
-    price: 4.5,
-    image: "./assets/images/image-cake-thumbnail.jpg",
-    quantity: 2,
-  },
-];
+// const cartList = [
+//   {
+//     id: 4,
+//     name: "Classic Tiramisu",
+//     price: 5.5,
+//     image: "/assets/images/image-tiramisu-thumbnail.jpg",
+//     quantity: 1,
+//   },
+//   {
+//     id: 2,
+//     name: "Vanilla Bean Crème Brûlée",
+//     price: 7.0,
+//     image: "./assets/images/image-creme-brulee-thumbnail.jpg",
+//     quantity: 4,
+//   },
+//   {
+//     id: 7,
+//     name: "Red Velvet Cake",
+//     price: 4.5,
+//     image: "./assets/images/image-cake-thumbnail.jpg",
+//     quantity: 2,
+//   },
+// ];
 
 const dummyData = Data;
 console.log(dummyData);
@@ -31,7 +31,21 @@ console.log(dummyData);
 function App() {
   const [isMobile, setIsMobile] = useState(window.innerWidth <= 768);
   const [itemsInCart, setItemsInCart] = useState([]);
-  // const [quantity, setQuantity] = useState(1);
+  const [isOpen, setIsOpen] = useState(false);
+  const total = itemsInCart.reduce(
+    (acc, item) => acc + item.price * item.quantity,
+    0
+  );
+
+  useEffect(() => {
+    if (isOpen) {
+      document.body.style.overflow = "hidden";
+    } else {
+      document.body.style.overflow = "unset";
+    }
+
+    return () => (document.body.style.overflow = "unset");
+  }, [isOpen]);
 
   function handleAddToCart(item) {
     const newItem = { ...item, quantity: 1 };
@@ -63,6 +77,15 @@ function App() {
     );
   }
 
+  function handleConfirmation() {
+    setIsOpen(true);
+  }
+
+  function handleReset() {
+    setIsOpen(false);
+    setItemsInCart([]);
+  }
+
   useEffect(() => {
     const handleResize = () => setIsMobile(window.innerWidth <= 768);
     window.addEventListener("resize", handleResize);
@@ -80,8 +103,21 @@ function App() {
           onIncrement={handleIncrement}
           onDecrement={handleDecrement}
         />
-        <Cart itemsInCart={itemsInCart} onRemoveItem={handleRemoveItem} />
+        <Cart
+          itemsInCart={itemsInCart}
+          onRemoveItem={handleRemoveItem}
+          onConfirmation={handleConfirmation}
+          total={total}
+        />
       </main>
+      {isOpen && (
+        <ConfirmationOrder
+          isOpen={isOpen}
+          itemsInCart={itemsInCart}
+          total={total}
+          onReset={handleReset}
+        />
+      )}
     </>
   );
 }
@@ -171,30 +207,28 @@ function EditQuantityBtn({ itemsInCart, id, onIncrement, onDecrement }) {
   );
 }
 
-function Cart({ itemsInCart, onRemoveItem }) {
-  const total = itemsInCart.reduce(
-    (acc, item) => acc + item.price * item.quantity,
-    0
-  );
-
+function Cart({ itemsInCart, onRemoveItem, onConfirmation, total }) {
   return (
     <aside className="cart">
       <h2>Your Cart ({itemsInCart.length})</h2>
 
       {itemsInCart.length > 0 ? (
         <>
-          <CartItems itemsInCart={itemsInCart} onRemoveItem={onRemoveItem} />
-          <div className="order-total">
-            <h4>Order Total</h4>
-            <p>${total.toFixed(2)}</p>
-          </div>
+          <CartItemsTotal
+            itemsInCart={itemsInCart}
+            onRemoveItem={onRemoveItem}
+            total={total}
+          />
+
           <div className="delivery">
             <img src="/assets/images/icon-carbon-neutral.svg" alt="" />
             <p>
               This is a <span>carbon-neutral</span> delivery
             </p>
           </div>
-          <button className="confirm-order">Confirm Order</button>
+          <button className="confirm-order" onClick={onConfirmation}>
+            Confirm Order
+          </button>
         </>
       ) : (
         <div className="empty-cart">
@@ -209,13 +243,19 @@ function Cart({ itemsInCart, onRemoveItem }) {
   );
 }
 
-function CartItems({ itemsInCart, onRemoveItem }) {
+function CartItemsTotal({ itemsInCart, onRemoveItem, total }) {
   return (
-    <ul>
-      {itemsInCart.map((item) => (
-        <ItemInCart key={item.id} item={item} onRemoveItem={onRemoveItem} />
-      ))}
-    </ul>
+    <>
+      <ul className="cart-items">
+        {itemsInCart.map((item) => (
+          <ItemInCart key={item.id} item={item} onRemoveItem={onRemoveItem} />
+        ))}
+      </ul>
+      <div className="order-total">
+        <h4>Order Total</h4>
+        <p>${total.toFixed(2)}</p>
+      </div>
+    </>
   );
 }
 
@@ -223,8 +263,8 @@ function ItemInCart({ item, onRemoveItem }) {
   const priceXQuantity = (item.price * item.quantity).toFixed(2);
 
   return (
-    <li>
-      <div>
+    <li className="cart-item">
+      <div className="item-info">
         <h5>{item.name}</h5>
         <div>
           <span>{item.quantity}x</span>
@@ -239,4 +279,60 @@ function ItemInCart({ item, onRemoveItem }) {
   );
 }
 
+function ConfirmationOrder({ isOpen, itemsInCart, total, onReset }) {
+  return (
+    <div className={`popup-overlay ${isOpen ? "active" : ""}`}>
+      <div className="confirmation-popup">
+        <span>
+          <img
+            src="/assets/images/icon-order-confirmed.svg"
+            alt="order confirmed"
+          />
+        </span>
+        <h3>Order Confirmed</h3>
+        <p>We hope you enjoy your order!</p>
+        <ItemsInConfirmation itemsInCart={itemsInCart} total={total} />
+        <button className="new-order" onClick={onReset}>
+          Start new order
+        </button>
+      </div>
+    </div>
+  );
+}
+function ItemsInConfirmation({ itemsInCart, total }) {
+  const items = itemsInCart.map((item) => item);
+  console.log(itemsInCart);
+  return (
+    <div className="items-and-total">
+      <ul className="cart-items">
+        {items.map((item) => (
+          <ItemInConfirm key={item.id} item={item} />
+        ))}
+      </ul>
+      <div className="order-total">
+        <h4>Order Total</h4>
+        <p>${total.toFixed(2)}</p>
+      </div>
+    </div>
+  );
+}
+function ItemInConfirm({ item }) {
+  const priceXQuantity = (item.price * item.quantity).toFixed(2);
+
+  return (
+    <li className="cart-item in-confirmation">
+      <div className="item-details">
+        <img className="thumbnail" src={item.image.thumbnail} alt={item.name} />
+        <div className="item-info">
+          <h5>{item.name}</h5>
+          <div>
+            <span>{item.quantity}x</span>
+            <p className="price-of-piece">@ ${item.price.toFixed(2)}</p>
+          </div>
+        </div>
+      </div>
+      <p className="price-x-quantity">${priceXQuantity}</p>
+    </li>
+  );
+}
 export default App;
