@@ -123,7 +123,7 @@ function App() {
 }
 
 function Header() {
-  return <header>Deserts Shop</header>;
+  return <header>Desserts Shop</header>;
 }
 
 function ProductsList({

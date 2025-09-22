@@ -1,70 +1,98 @@
-# Getting Started with Create React App
+# 🍰 Desserts Shop – React Cart App
 
-This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app).
+## 📌 Overview
 
-## Available Scripts
+Desserts Shop is a responsive e-commerce cart application built with **React**.  
+It allows users to browse dessert products, add/remove items to/from the cart, adjust item quantities, confirm their order, and reset the cart.
 
-In the project directory, you can run:
+The project also ensures **accessibility** by supporting keyboard navigation and focus states, and is fully responsive across desktop and mobile devices.
 
-### `npm start`
+---
 
-Runs the app in the development mode.\
-Open [http://localhost:3000](http://localhost:3000) to view it in your browser.
+## 🚀 Features
 
-The page will reload when you make changes.\
-You may also see any lint errors in the console.
+- 🛒 Add items to the cart and remove them
+- ➕➖ Increase / decrease item quantity in the cart
+- 💰 View order total dynamically as items are added or updated
+- ✅ See an **order confirmation popup** with cart summary when confirming
+- 🔄 Reset the cart and start a new order
+- 📱 Responsive design (desktop & mobile images)
+- 🎨 Hover and focus states for all interactive elements
+- 🖼️ Smooth popup overlay with scroll lock when open
 
-### `npm test`
+---
 
-Launches the test runner in the interactive watch mode.\
-See the section about [running tests](https://facebook.github.io/create-react-app/docs/running-tests) for more information.
+## 🛠️ Tech Stack
 
-### `npm run build`
+- **React** (functional components + hooks)
+- **CSS** for styling & responsiveness
+- **JSON data** for product information
 
-Builds the app for production to the `build` folder.\
-It correctly bundles React in production mode and optimizes the build for the best performance.
+---
 
-The build is minified and the filenames include the hashes.\
-Your app is ready to be deployed!
+## 📂 Project Structure
 
-See the section about [deployment](https://facebook.github.io/create-react-app/docs/deployment) for more information.
+`src/
+│── App.jsx # Root component │── data.json # Product data (id, name, price, category, images) │── components/
+│    ├── Header.jsx
+│    ├── ProductsList.jsx
+│    ├── ProductItem.jsx
+│    ├── AddToCartBtn.jsx
+│    ├── EditQuantityBtn.jsx
+│    ├── Cart.jsx
+│    ├── CartItemsTotal.jsx
+│    ├── ItemInCart.jsx
+│    ├── ConfirmationOrder.jsx
+│    ├── ItemsInConfirmation.jsx
+│    └── ItemInConfirm.jsx
+│── assets/ # Images & icons │── styles/ # CSS files`
 
-### `npm run eject`
+---
 
-**Note: this is a one-way operation. Once you `eject`, you can't go back!**
+## ⚙️ Core Logic
 
-If you aren't satisfied with the build tool and configuration choices, you can `eject` at any time. This command will remove the single build dependency from your project.
+### 1. **State Management**
 
-Instead, it will copy all the configuration files and the transitive dependencies (webpack, Babel, ESLint, etc) right into your project so you have full control over them. All of the commands except `eject` will still work, but they will point to the copied scripts so you can tweak them. At this point you're on your own.
+- `itemsInCart`: Array of cart items with `id, name, price, image, quantity`.
+- `isMobile`: Boolean for responsive image selection (mobile vs desktop).
+- `isOpen`: Boolean for showing/hiding the confirmation popup.
 
-You don't have to ever use `eject`. The curated feature set is suitable for small and middle deployments, and you shouldn't feel obligated to use this feature. However we understand that this tool wouldn't be useful if you couldn't customize it when you are ready for it.
+### 2. **Cart Operations**
 
-## Learn More
+- **Add item**: Adds new item with quantity `1`.
+- **Remove item**: Filters out item by `id`.
+- **Increment/Decrement**: Updates quantity (min = 1).
+- **Reset**: Clears cart + closes confirmation popup.
 
-You can learn more in the [Create React App documentation](https://facebook.github.io/create-react-app/docs/getting-started).
+### 3. **Responsive Images**
 
-To learn React, check out the [React documentation](https://reactjs.org/).
+- Each product has `{ desktop, mobile, thumbnail }`.
+- Selected based on `window.innerWidth <= 768`.
 
-### Code Splitting
+### 4. **Popup Overlay**
 
-This section has moved here: [https://facebook.github.io/create-react-app/docs/code-splitting](https://facebook.github.io/create-react-app/docs/code-splitting)
+- Locks scroll when open (`document.body.style.overflow = hidden`).
+- Displays order summary with all items + total.
 
-### Analyzing the Bundle Size
+---
 
-This section has moved here: [https://facebook.github.io/create-react-app/docs/analyzing-the-bundle-size](https://facebook.github.io/create-react-app/docs/analyzing-the-bundle-size)
+## 📸 Screenshots
 
-### Making a Progressive Web App
+### 🖥️ Desktop
 
-This section has moved here: [https://facebook.github.io/create-react-app/docs/making-a-progressive-web-app](https://facebook.github.io/create-react-app/docs/making-a-progressive-web-app)
+### 📱 Mobile
 
-### Advanced Configuration
+---
 
-This section has moved here: [https://facebook.github.io/create-react-app/docs/advanced-configuration](https://facebook.github.io/create-react-app/docs/advanced-configuration)
+## 🔮 Future Improvements
 
-### Deployment
+- Add localStorage to persist cart state after refresh
+- Add animations (Framer Motion) for popup and cart interactions
+- Add product filters (categories, price range)
+- Connect to a backend API for real products
 
-This section has moved here: [https://facebook.github.io/create-react-app/docs/deployment](https://facebook.github.io/create-react-app/docs/deployment)
+---
 
-### `npm run build` fails to minify
+## 👨‍💻 Author
 
-This section has moved here: [https://facebook.github.io/create-react-app/docs/troubleshooting#npm-run-build-fails-to-minify](https://facebook.github.io/create-react-app/docs/troubleshooting#npm-run-build-fails-to-minify)
+Developed by **Ramez Khaled** ✨
