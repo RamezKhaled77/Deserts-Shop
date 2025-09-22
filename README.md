@@ -76,14 +76,6 @@ The project also ensures **accessibility** by supporting keyboard navigation and
 
 ---
 
-## 📸 Screenshots
-
-### 🖥️ Desktop
-
-### 📱 Mobile
-
----
-
 ## 🔮 Future Improvements
 
 - Add localStorage to persist cart state after refresh
