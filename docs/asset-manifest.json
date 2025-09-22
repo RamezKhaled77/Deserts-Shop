@@ -1,13 +1,13 @@
 {
   "files": {
     "main.css": "/Deserts-Shop/static/css/main.d48c5f1b.css",
-    "main.js": "/Deserts-Shop/static/js/main.c161742f.js",
+    "main.js": "/Deserts-Shop/static/js/main.d10c0b63.js",
     "index.html": "/Deserts-Shop/index.html",
     "main.d48c5f1b.css.map": "/Deserts-Shop/static/css/main.d48c5f1b.css.map",
-    "main.c161742f.js.map": "/Deserts-Shop/static/js/main.c161742f.js.map"
+    "main.d10c0b63.js.map": "/Deserts-Shop/static/js/main.d10c0b63.js.map"
   },
   "entrypoints": [
     "static/css/main.d48c5f1b.css",
-    "static/js/main.c161742f.js"
+    "static/js/main.d10c0b63.js"
   ]
 }
