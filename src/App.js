@@ -187,7 +187,7 @@ function ProductItem({
 function AddToCartBtn({ onClick }) {
   return (
     <button className="add-to-cart" onClick={onClick}>
-      <img src="/assets/images/icon-add-to-cart.svg" alt="add to cart" />
+      <img src="./assets/images/icon-add-to-cart.svg" alt="add to cart" />
       Add to Cart
     </button>
   );
@@ -221,7 +221,7 @@ function Cart({ itemsInCart, onRemoveItem, onConfirmation, total }) {
           />
 
           <div className="delivery">
-            <img src="/assets/images/icon-carbon-neutral.svg" alt="" />
+            <img src="./assets/images/icon-carbon-neutral.svg" alt="" />
             <p>
               This is a <span>carbon-neutral</span> delivery
             </p>
@@ -233,7 +233,7 @@ function Cart({ itemsInCart, onRemoveItem, onConfirmation, total }) {
       ) : (
         <div className="empty-cart">
           <img
-            src="/assets/images/illustration-empty-cart.svg"
+            src="./assets/images/illustration-empty-cart.svg"
             alt="empty cart"
           />
           <p>Your added items will appear here</p>
@@ -273,7 +273,7 @@ function ItemInCart({ item, onRemoveItem }) {
         </div>
       </div>
       <button className="remove-item" onClick={() => onRemoveItem(item.id)}>
-        <img src="/assets/images/icon-remove-item.svg" alt="remove item" />
+        <img src="./assets/images/icon-remove-item.svg" alt="remove item" />
       </button>
     </li>
   );
@@ -285,7 +285,7 @@ function ConfirmationOrder({ isOpen, itemsInCart, total, onReset }) {
       <div className="confirmation-popup">
         <span>
           <img
-            src="/assets/images/icon-order-confirmed.svg"
+            src="./assets/images/icon-order-confirmed.svg"
             alt="order confirmed"
           />
         </span>
